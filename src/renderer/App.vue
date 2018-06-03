@@ -76,6 +76,10 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
+        <v-snackbar
+            :timeout="settings.notificationTimeout">
+
+        </v-snackbar>
       <v-footer :fixed="fixed" app>
         <v-spacer></v-spacer>
         <span>&copy; 2018 Langston Chandler</span>
@@ -85,6 +89,11 @@
 </template>
 
 <script>
+    import VeeValidate from 'vee-validate';
+    import Vue from 'vue';
+
+    Vue.use(VeeValidate);
+
   export default {
     name: 'writestorm',
     data: () => ({
@@ -104,7 +113,12 @@
         ],
         notifications: [ 'hi' ],
       right: false
-    })
+    }),
+      mounted () {
+          config.getSettings((err, settings) => {
+              this.settings = settings;
+          })
+      }
   }
 </script>
 

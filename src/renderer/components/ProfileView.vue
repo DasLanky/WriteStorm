@@ -1,18 +1,37 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
-    <v-flex xs10 class="mt-3">
+    <v-flex xs10 mt-3>
       <v-card>
         <v-card-title class="headline">Profile</v-card-title>
         <v-divider></v-divider>
-          <v-container fluid>
+          <v-flex mt-4 text-xs-center>
               <v-avatar size="256">
                   <img src="~@/assets/avatarDefault.jpg" circle>
               </v-avatar>
-          </v-container>
+          </v-flex>
+          <v-flex mt-4 pl-5 pr-5>
+              <v-text-field
+                      v-model="settings.firstName"
+                      name="firstName"
+                      id="firstName"
+                      v-validate.initial="'required|alpha'"
+                      label="First Name"
+                      :error-messages="errors.collect('firstName')"/>
+          </v-flex>
+          <v-flex pl-5 pr-5>
+              <v-text-field
+                      v-model="settings.lastName"
+                      name="lastName"
+                      id="lastName"
+                      v-validate.initial="'required|alpha'"
+                      label="Last Name"
+                      :error-messages="errors.collect('lastName')"/>
+          </v-flex>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn primary
                  flat
+                 outline
                  @click.native.stop="saveSettings()">Save</v-btn>
         </v-card-actions>
       </v-card>
@@ -26,7 +45,10 @@
       name: 'profile',
       data: function (){
           return {
-              settings: {}
+              settings: {
+                  firstName: "",
+                  lastName: ""
+              }
           }
       },
       methods: {

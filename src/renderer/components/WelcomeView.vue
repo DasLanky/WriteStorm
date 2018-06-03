@@ -10,11 +10,9 @@
             <em><small>&mdash; Langston</small></em>
           </div>
         </v-card-text>
-      </v-card>
-        <v-card>
             <v-layout row wrap justify-center>
                 <v-flex xs6 class="mt-4" @input="update">
-                    <v-text-field v-bind:value="stormText" :textarea="true" class="textarea"></v-text-field>
+                    <v-text-field v-bind:value="stormText" :textarea="true" :autofocus="true" :auto-grow="true" class="textarea"></v-text-field>
                 </v-flex>
                 <v-flex xs6 class="mt-4">
                     <div class="markdown" v-html="compiledMarkdown"></div>
@@ -86,7 +84,12 @@
   }
 
     .markdown {
+        height: 100%;
         padding: 20px;
         background-color: #f6f6f6;
+    }
+
+    /deep/ .input-group__details {
+        display: none;
     }
 </style>

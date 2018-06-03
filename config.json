@@ -1,3 +1,5 @@
 {
-	"test": 1
+	"notificationTimeout": 5000,
+	"firstName": "Langston",
+	"lastName": "Chandler"
 }
