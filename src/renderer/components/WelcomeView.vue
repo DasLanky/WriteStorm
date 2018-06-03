@@ -11,6 +11,7 @@
           </div>
         </v-card-text>
       </v-card>
+        <v-card>
             <v-layout row wrap justify-center>
                 <v-flex xs6 class="mt-4" @input="update">
                     <v-text-field v-bind:value="stormText" :textarea="true" class="textarea"></v-text-field>
