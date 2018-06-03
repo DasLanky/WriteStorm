@@ -1,33 +1,56 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
-    <v-flex xs12 md4 offset-md1 class="text-xs-center centered">
-      <img id="logo" class="logo" src="~@/assets/logo.png" alt="electron-vue">
-    </v-flex>
-    <v-flex xs12 md6 class="text-xs-center centered">
-      <img id="logo" class="logo" src="/static/v.png" alt="Vuetifyjs">
-    </v-flex>
     <v-flex xs10 class="mt-3">
       <v-card>
         <v-card-text>
-          <p>Welcome to the Electron-vue + Vuetify template.</p>
-          <p>Vuetify is a progressive Material Design component framework for Vue.js. It was designed to empower developers to create amazing applications. For more information on Vuetify, check out the <a href="https://vuetifyjs.com" target="_blank">documentation</a>. If you have questions, please join the official <a href="https://chat.vuetifyjs.com/" target="_blank" title="chat">discord</a>. Find a bug? Report it on the github <a href="https://github.com/vuetifyjs/vuetify/issues" target="_blank" title="contribute">issue board</a>.</p>
-          <p>Thank you for developing with Vuetify and I look forward to bringing more exciting features in the future.</p>
+            <p>Let's cut to the chase!</p>
+            <p>Start writing in the below text area on the left in Markdown and your compiled text will appear on the right.</p>
+            <p>Happy writing!</p>
           <div class="text-xs-right">
-            <em><small>&mdash; John Leider</small></em>
+            <em><small>&mdash; Langston</small></em>
           </div>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn primary flat router to="/inspire">Continue</v-btn>
-        </v-card-actions>
       </v-card>
+            <v-layout row wrap justify-center>
+                <v-flex xs6 class="mt-4" @input="update">
+                    <v-text-field v-bind:value="stormText" :textarea="true" class="textarea"></v-text-field>
+                </v-flex>
+                <v-flex xs6 class="mt-4">
+                    <div class="markdown" v-html="compiledMarkdown"></div>
+                </v-flex>
+            </v-layout>
+            <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn primary
+                       flat
+                       @click.native.stop="saveSettings()">Save</v-btn>
+            </v-card-actions>
+        </v-card>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+    import _ from 'lodash';
+    import marked from 'marked';
   export default {
-    name: 'welcome'
+    name: 'welcome',
+      data: function () {
+        return {
+            stormText: '# Go for it!',
+            statusText: 'Keep writing!'
+        }
+      },
+      computed: {
+          compiledMarkdown() {
+              return marked(this.stormText, { sanitize: true });
+          }
+      },
+      methods: {
+          update: _.debounce(function (e) {
+              this.stormText = e.target.value;
+          }, 300)
+      }
   }
 </script>
 
@@ -48,4 +71,21 @@
   {
     width: 150px;
   }
+
+  .textarea {
+      border: 1px black;
+      border-right: 1px solid #ccc;
+      resize: none;
+      outline: none;
+      background-color: #f6f6f6;
+      font-size: 14px;
+      font-family: 'Monaco', courier, monospace;
+      margin-bottom: 0px;
+      padding: 0px;
+  }
+
+    .markdown {
+        padding: 20px;
+        background-color: #f6f6f6;
+    }
 </style>
