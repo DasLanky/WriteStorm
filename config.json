@@ -2,6 +2,6 @@
 	"notificationTimeout": 5000,
 	"firstName": "Langston",
 	"lastName": "Chandler",
-	"isHelpVisible": false,
+	"isHelpVisible": true,
 	"shouldScroll": true
 }

@@ -78,10 +78,6 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
-        <v-snackbar
-            :timeout="settings.notificationTimeout">
-
-        </v-snackbar>
       <v-footer :fixed="fixed" app color="green">
         <v-spacer></v-spacer>
         <span>&copy; 2018 Langston Chandler</span>
