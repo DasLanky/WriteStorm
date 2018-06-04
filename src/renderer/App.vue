@@ -126,6 +126,14 @@
           }
       },
       mounted () {
+          fs.readdir('./storms', function(err, data) {
+              if (err) {
+                  console.log('Making ./storms/ directory');
+                  fs.mkdir('storms');
+              } else {
+                  console.log('./storms/ already exists');
+              }
+          })
           config.getSettings((err, settings) => {
               this.settings = settings;
           });
