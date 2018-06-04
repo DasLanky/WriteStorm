@@ -6,9 +6,12 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn primary
-                 flat
-                 @click.native.stop="saveSettings()">Save</v-btn>
+            <v-flex xs6>
+                <v-switch label="Welcome Card" v-model="settings.isHelpVisible" @click.native.stop="saveSettings()"></v-switch>
+            </v-flex>
+            <v-flex xs6>
+                <v-switch label="Scroll" v-model="settings.shouldScroll" @click.native.stop="saveSettings()"></v-switch>
+            </v-flex>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -21,7 +24,10 @@
       name: 'settings',
       data: function (){
           return {
-              settings: {}
+              settings: {
+                  shouldScroll: true,
+                  isHelpVisible: true
+              }
           }
       },
       methods: {
