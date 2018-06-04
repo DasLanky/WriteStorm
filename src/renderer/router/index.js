@@ -5,11 +5,16 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/',
-      name: 'write-view',
-      component: require('@/components/WriteView').default
-    },
+      {
+          path: '/',
+          name: 'write-view',
+          component: require('@/components/WriteView').default
+      },
+      {
+          path: '/storms/:storm',
+          name: 'load-write-view',
+          component: require('@/components/WriteView').default
+      },
       {
           path: '/inspire',
           name: 'inspire',

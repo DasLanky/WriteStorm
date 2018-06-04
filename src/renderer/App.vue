@@ -74,7 +74,7 @@
       <v-content>
         <v-container fluid fill-height>
           <v-slide-y-transition mode="out-in">
-            <router-view></router-view>
+              <router-view :key="$route.fullPath"></router-view>
           </v-slide-y-transition>
         </v-container>
       </v-content>
@@ -82,7 +82,7 @@
             :timeout="settings.notificationTimeout">
 
         </v-snackbar>
-      <v-footer :fixed="fixed" app>
+      <v-footer :fixed="fixed" app color="green">
         <v-spacer></v-spacer>
         <span>&copy; 2018 Langston Chandler</span>
       </v-footer>
@@ -110,7 +110,6 @@
       },
         profileItems: [
             { title: 'Profile', to: '/profile' },
-            { title: 'Friends', to: '/friends'},
             { title: 'About', to: '/about' },
             { title: 'Logout', to: '/login' }
         ],
@@ -123,7 +122,7 @@
                   console.log(data);
                   this.items.recent = [];
                   data.forEach((item) => {
-                      this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/item' });
+                      this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/' + item });
                   });
               });
           }

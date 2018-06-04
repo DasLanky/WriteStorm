@@ -1,15 +1,15 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
-    <v-flex xs10 mt-3>
+    <v-flex xs10 mt-3 text-xs-center>
       <v-card>
         <v-card-title class="headline">Profile</v-card-title>
         <v-divider></v-divider>
-          <v-flex mt-4 text-xs-center>
+          <v-flex mt-4>
               <v-avatar size="256">
                   <img src="~@/assets/avatarDefault.jpg" circle>
               </v-avatar>
           </v-flex>
-          <v-flex mt-4 pl-5 pr-5>
+          <v-flex mt-4 px-5>
               <v-text-field
                       v-model="settings.firstName"
                       name="firstName"
@@ -18,7 +18,7 @@
                       label="First Name"
                       :error-messages="errors.collect('firstName')"/>
           </v-flex>
-          <v-flex pl-5 pr-5>
+          <v-flex px-5>
               <v-text-field
                       v-model="settings.lastName"
                       name="lastName"
@@ -81,4 +81,8 @@
   {
     width: 150px;
   }
+
+    .name-input {
+        max-width: 200px;
+    }
 </style>

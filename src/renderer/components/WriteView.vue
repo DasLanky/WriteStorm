@@ -24,23 +24,13 @@
         </v-card>
             <v-layout row wrap justify-center>
                 <v-flex xs6 @input="update">
-                    <v-card :class="'elevation-' + (isHelpVisible) ? '1' : '5'" class="mt-3 mx-1">
+                    <v-card class="mt-3 mx-1 elevation-5">
                     <v-text-field v-bind:value="stormText" :textarea="true" :autofocus="true" :auto-grow="!settings.shouldScroll" class="textarea"></v-text-field>
-                        <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn primary
-                               flat
-                               @click.native.stop="saveStorm()">Save as...</v-btn>
-                        <v-btn primary
-                               flat
-                               @click.native.stop="loadStorm()">Load</v-btn>
-                        </v-card-actions>
                     </v-card>
                 </v-flex>
                 <v-flex xs6>
-
-                    <v-card :class="'elevation-' + (isHelpVisible) ? '1' : '5'" class="mt-3 mx-1" :auto-grow="!settings.shouldScroll">
-                    <div class="markdown" v-html="compiledMarkdown"></div>
+                    <v-card class="mt-3 mx-1 elevation-5" :auto-grow="!settings.shouldScroll">
+                        <div class="markdown" v-html="compiledMarkdown"></div>
                     </v-card>
                 </v-flex>
             </v-layout>
@@ -76,7 +66,16 @@
       },
       methods: {
           loadStorm: function() {
-
+            if (this.$route.params.storm) {
+                console.log("Loading Storm: " + this.$route.params.storm);
+                this.stormTitle = this.$route.params.storm;
+                fs.readFile('./storms/' + this.$route.params.storm, (err, data) => {
+                    this.stormText = data.toString();
+                });
+            }
+            else {
+                console.log("New Storm");
+            }
           },
           saveStorm: function() {
               fs.writeFile('./storms/' + this.stormTitle, this.stormText, function(err) {
@@ -97,6 +96,7 @@
           config.getSettings((err, settings) => {
               this.settings = settings;
           })
+          this.loadStorm();
       }
   }
 </script>
