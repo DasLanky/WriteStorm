@@ -122,7 +122,9 @@
                   console.log(data);
                   this.items.recent = [];
                   data.forEach((item) => {
-                      this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/' + item });
+                      if (!item.startsWith("_")) {
+                          this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/' + item });
+                      }
                   });
               });
           }
