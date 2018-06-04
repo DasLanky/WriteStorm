@@ -16,11 +16,6 @@ export default new Router({
           component: require('@/components/WriteView').default
       },
       {
-          path: '/inspire',
-          name: 'inspire',
-          component: require('@/components/InspireView').default
-      },
-      {
           path: '/settings',
           name: 'settings',
           component: require('@/components/SettingsView').default
@@ -34,11 +29,6 @@ export default new Router({
           path: '/profile',
           name: 'profile',
           component: require('@/components/ProfileView').default
-      },
-      {
-          path: '/login',
-          name: 'login',
-          component: require('@/components/LoginView').default
       },
     {
       path: '*',

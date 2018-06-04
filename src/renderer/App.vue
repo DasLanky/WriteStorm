@@ -80,7 +80,7 @@
       </v-content>
       <v-footer :fixed="fixed" app color="green">
         <v-spacer></v-spacer>
-        <span>&copy; 2018 Langston Chandler</span>
+        <span class="px-3">&copy; 2018 Langston Chandler</span>
       </v-footer>
     </v-app>
   </div>

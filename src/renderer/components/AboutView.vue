@@ -4,7 +4,7 @@
             <v-card>
                 <v-card-title class="headline">WriteStorm</v-card-title>
                 <v-divider></v-divider>
-                <v-card-text>What the hell is WriteStorm?</v-card-text>
+                <v-card-text>What is WriteStorm? I guess we'll find out later.</v-card-text>
             </v-card>
         </v-flex>
     </v-layout>
