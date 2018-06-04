@@ -1,8 +1,8 @@
 <template>
   <v-layout row wrap justify-center id="wrapper">
     <v-flex xs10 class="mt-3">
-        <v-card>
-            <v-card-text :class="settings.isHelpVisible ? '' : 'hidden'">
+        <v-card :class="settings.isHelpVisible ? '' : 'hidden'">
+            <v-card-text>
                 <p>Welcome to WriteStorm!</p>
                 <p>Start writing in the below text area on the left in Markdown and your compiled text will appear on the right.</p>
                 <p>All your storms are automatically saved in the ./storms/ folder.</p>
@@ -13,12 +13,8 @@
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>
-                <v-card-text>
-                    <v-switch label="Scroll" v-model="settings.shouldScroll" @click.native.stop="saveSettings()"></v-switch>
-                </v-card-text>
                 <v-btn primary
                        flat
-                       :class="settings.isHelpVisible ? '' : 'hidden'"
                        @click.native.stop="settings.isHelpVisible = false; saveSettings()">Hide</v-btn>
             </v-card-actions>
         </v-card>
@@ -26,6 +22,9 @@
                 <v-flex xs6 @input="update">
                     <v-card class="mt-3 mx-1 elevation-5">
                     <v-text-field v-bind:value="stormText" :textarea="true" :autofocus="true" :auto-grow="!settings.shouldScroll" class="textarea"></v-text-field>
+                        <v-card-actions>
+                            <v-switch label="Scroll" v-model="settings.shouldScroll" @click.native.stop="saveSettings()"></v-switch>
+                        </v-card-actions>
                     </v-card>
                 </v-flex>
                 <v-flex xs6>
@@ -44,6 +43,7 @@
 
     var config = require('../../config.js');
     var fs = require('fs');
+    var path = require('path');
 
   export default {
     name: 'write',
@@ -123,8 +123,7 @@
       border: none;
       resize: none;
       outline: none;
-      background-color: #f6f6f6;
-      font-size: 14px;
+      font-size: 10px;
       font-family: 'Monaco', courier, monospace;
       margin-bottom: 0px;
       padding: 0px;
@@ -133,7 +132,6 @@
     .markdown {
         height: 100%;
         padding: 20px;
-        background-color: #f6f6f6;
     }
 
     /deep/ .input-group__details {

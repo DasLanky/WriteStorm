@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-app light>
+    <v-app v-bind:dark="settings.isDark">
       <v-navigation-drawer
         absolute
         :clipped="true"
@@ -27,7 +27,7 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-toolbar fixed app color="green">
+      <v-toolbar fixed app v-bind:color="settings.isDark ? 'black' : 'green'">
         <v-btn
           icon
           @click.native.stop="drawer ? {} : getFileList(); drawer = !drawer;"
@@ -48,9 +48,15 @@
                 <v-icon color="red">notifications</v-icon>
             </div>
             <div v-if="notifications.length == 0">
-                <v-icon color="white">notifications</v-icon>
+                <v-icon>notifications</v-icon>
             </div>
         </v-btn>
+          <v-btn
+                  icon
+                  @click.native.stop="flipTheme()"
+          >
+              <v-icon color="white" v-html="settings.isDark ? 'brightness_7' : 'brightness_3'"></v-icon>
+          </v-btn>
           <v-btn icon :to="'/'">
               <v-icon color="white">cloud</v-icon>
           </v-btn>
@@ -78,9 +84,9 @@
           </v-slide-y-transition>
         </v-container>
       </v-content>
-      <v-footer :fixed="fixed" app color="green">
-        <v-spacer></v-spacer>
-        <span class="px-3">&copy; 2018 Langston Chandler</span>
+      <v-footer :fixed="fixed" app v-bind:color="settings.isDark ? 'black' : 'green'">
+          <v-spacer></v-spacer>
+          <span class="px-3 white--text">&copy; 2018 Langston Chandler</span>
       </v-footer>
     </v-app>
   </div>
@@ -100,7 +106,9 @@
     data: () => ({
       drawer: false,
       fixed: false,
-        settings: {},
+        settings: {
+          isDark: false
+        },
       items: {
           recent: []
       },
@@ -123,6 +131,14 @@
                       }
                   });
               });
+          },
+          flipTheme: function () {
+              console.log("Flipped theme");
+              this.settings.isDark = !this.settings.isDark;
+              this.saveSettings();
+          },
+          saveSettings: function () {
+              config.saveSettings(this.settings);
           }
       },
       mounted () {
