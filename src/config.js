@@ -1,11 +1,7 @@
 var fs = require('fs');
 
 function getSettings (callback) {
-    fs.readdir('./', (err, files) => {
-        console.log(files);
-    })
     fs.readFile('./config.json', (err, data) => {
-        console.log(data);
         callback(err, JSON.parse(data));
     })
 };

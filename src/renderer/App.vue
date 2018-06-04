@@ -2,8 +2,10 @@
   <div id="app">
     <v-app light>
       <v-navigation-drawer
-        fixed
-        :clipped="clipped"
+        absolute
+        :clipped="true"
+        :temporary="true"
+        :disable-resize-watcher="true"
         v-model="drawer"
         app
       >
@@ -12,7 +14,7 @@
             router
             :to="item.to"
             :key="i"
-            v-for="(item, i) in items"
+            v-for="(item, i) in items.recent"
             exact
           >
             <v-list-tile-action>
@@ -24,17 +26,17 @@
           </v-list-tile>
         </v-list>
       </v-navigation-drawer>
-      <v-toolbar fixed app color="green" :clipped-left="clipped">
+
+      <v-toolbar fixed app color="green">
         <v-btn
           icon
-          @click.native.stop="drawer = !drawer"
+          @click.native.stop="drawer ? {} : getFileList(); drawer = !drawer;"
         >
           <v-icon color="white" v-html="drawer ? 'chevron_right' : 'chevron_left'"></v-icon>
         </v-btn>
         <v-btn
           icon
           :to="'/settings'"
-          @click.native.stop="clipped = !clipped"
         >
           <v-icon color="white">settings</v-icon>
         </v-btn>
@@ -94,17 +96,18 @@
 
     Vue.use(VeeValidate);
 
+    var fs = require('fs');
+    var config = require('../config.js');
+
   export default {
     name: 'writestorm',
     data: () => ({
-      clipped: false,
       drawer: false,
       fixed: false,
         settings: {},
-      items: [
-        { icon: 'apps', title: 'Welcome', to: '/' },
-        { icon: 'bubble_chart', title: 'Inspire', to: '/inspire' }
-      ],
+      items: {
+          recent: []
+      },
         profileItems: [
             { title: 'Profile', to: '/profile' },
             { title: 'Friends', to: '/friends'},
@@ -114,10 +117,22 @@
         notifications: [ 'hi' ],
       right: false
     }),
+      methods: {
+          getFileList: function () {
+              fs.readdir('./storms', (err, data) => {
+                  console.log(data);
+                  this.items.recent = [];
+                  data.forEach((item) => {
+                      this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/item' });
+                  });
+              });
+          }
+      },
       mounted () {
           config.getSettings((err, settings) => {
               this.settings = settings;
-          })
+          });
+          this.getFileList();
       }
   }
 </script>

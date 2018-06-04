@@ -1,5 +1,6 @@
 {
 	"notificationTimeout": 5000,
 	"firstName": "Langston",
-	"lastName": "Chandler"
+	"lastName": "Chandler",
+	"shouldScroll": true
 }

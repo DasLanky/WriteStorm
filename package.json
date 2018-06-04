@@ -1,9 +1,9 @@
 {
-  "name": "writestorm",
-  "productName": "writestorm",
-  "version": "0.0.0",
+  "name": "WriteStorm",
+  "productName": "WriteStorm",
+  "version": "0.0.1",
   "author": "Langston <gcubewhiz@hotmail.com>",
-  "description": "An electron-vue project",
+  "description": "Brainstorming tool for creative writers",
   "license": null,
   "main": "./dist/electron/main.js",
   "scripts": {
