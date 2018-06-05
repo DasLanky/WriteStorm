@@ -29,7 +29,7 @@
                 <v-flex xs6 @input="update">
                     <v-card class="my-3 mx-2 elevation-5">
                         <v-text-field
-                                v-bind:value="stormText"
+                                v-model="stormText"
                                 :textarea="true"
                                 :autofocus="true"
                                 :auto-grow="!settings.shouldScroll"
@@ -73,7 +73,7 @@
         },
         computed: {
             compiledMarkdown() {
-                return marked(this.stormText, {sanitize: true});
+                return marked(this.stormText, {silent: true});
             },
             settings() {
                 return this.$store.state.settings;
