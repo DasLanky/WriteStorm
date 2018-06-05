@@ -14,7 +14,7 @@
     export default {
         name: "AboutView",
         methods: {
-            open (link) {
+            open(link) {
                 this.$electron.shell.openExternal(link)
             }
         }

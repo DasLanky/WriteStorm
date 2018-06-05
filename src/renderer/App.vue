@@ -1,164 +1,147 @@
 <template>
-  <div id="app">
-    <v-app v-bind:dark="settings.isDark">
-      <v-navigation-drawer
-        absolute
-        :clipped="true"
-        :temporary="true"
-        :disable-resize-watcher="true"
-        v-model="drawer"
-        app
-      >
-        <v-list>
-          <v-list-tile
-            router
-            :to="item.to"
-            :key="i"
-            v-for="(item, i) in items.recent"
-            exact
-          >
-            <v-list-tile-action>
-              <v-icon v-html="item.icon"></v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title v-text="item.title"></v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
-      </v-navigation-drawer>
+    <div id="app" style="overflow-y: hidden;">
+        <v-app v-bind:dark="settings.isDark">
+            <v-navigation-drawer
+                    absolute
+                    :clipped="true"
+                    :temporary="true"
+                    :disable-resize-watcher="true"
+                    v-model="drawer"
+                    app
+            >
+                <v-list>
+                    <v-list-tile
+                            router
+                            :to="item.to"
+                            :key="i"
+                            v-for="(item, i) in items.recent"
+                            exact
+                    >
+                        <v-list-tile-action>
+                            <v-icon v-html="item.icon"></v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-navigation-drawer>
 
-      <v-toolbar fixed app v-bind:color="settings.isDark ? 'black' : 'green'">
-        <v-btn
-          icon
-          @click.native.stop="drawer ? {} : getFileList(); drawer = !drawer;"
-        >
-          <v-icon color="white" v-html="drawer ? 'chevron_right' : 'chevron_left'"></v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          :to="'/settings'"
-        >
-          <v-icon color="white">settings</v-icon>
-        </v-btn>
-        <v-btn
-          icon
-          @click.native.stop="fixed = !fixed"
-        >
-            <div v-if="notifications.length > 0">
-                <v-icon color="red">notifications</v-icon>
-            </div>
-            <div v-if="notifications.length == 0">
-                <v-icon>notifications</v-icon>
-            </div>
-        </v-btn>
-          <v-btn
-                  icon
-                  @click.native.stop="flipTheme()"
-          >
-              <v-icon color="white" v-html="settings.isDark ? 'brightness_7' : 'brightness_3'"></v-icon>
-          </v-btn>
-          <v-btn icon :to="'/'">
-              <v-icon color="white">cloud</v-icon>
-          </v-btn>
-        <v-spacer></v-spacer>
-          <div class="text-xs-center" color="blue">
-              <v-menu transition="slide-y-transition">
-                  <v-btn
-                          slot="activator"
-                          icon
-                  >
-                      <v-avatar size="48"><img src="~@/assets/avatarDefault.jpg" alt="Login"></v-avatar>
-                  </v-btn>
-                  <v-list>
-                      <v-list-tile v-for="(item, i) in profileItems" :key="i" :to="item.to">
-                          <v-list-tile-title v-text="item.title"></v-list-tile-title>
-                      </v-list-tile>
-                  </v-list>
-              </v-menu>
-          </div>
-      </v-toolbar>
-      <v-content>
-        <v-container fluid fill-height>
-          <v-slide-y-transition mode="out-in">
-              <router-view :key="$route.fullPath"></router-view>
-          </v-slide-y-transition>
-        </v-container>
-      </v-content>
-      <v-footer :fixed="fixed" app v-bind:color="settings.isDark ? 'black' : 'green'">
-          <v-spacer></v-spacer>
-          <span class="px-3 white--text">&copy; 2018 Langston Chandler</span>
-      </v-footer>
-    </v-app>
-  </div>
+            <v-toolbar absolute app v-bind:color="settings.isDark ? 'black' : 'green'">
+                <v-btn icon @click.native.stop="drawer ? {} : getFileList(); drawer = !drawer;">
+                    <v-icon color="white" v-html="drawer ? 'chevron_right' : 'chevron_left'"></v-icon>
+                </v-btn>
+                <v-btn icon :to="'/settings'">
+                    <v-icon color="white">settings</v-icon>
+                </v-btn>
+                <v-btn icon @click.native.stop="fixed = !fixed">
+                    <div v-if="notifications.length > 0">
+                        <v-icon color="red">notifications</v-icon>
+                    </div>
+                    <div v-if="notifications.length == 0">
+                        <v-icon>notifications</v-icon>
+                    </div>
+                </v-btn>
+                <v-btn icon @click.native.stop="$store.commit('flipTheme'); saveSettings()">
+                    <v-icon color="white" v-html="settings.isDark ? 'brightness_7' : 'brightness_3'"></v-icon>
+                </v-btn>
+                <v-btn icon :to="'/'">
+                    <v-icon color="white">cloud</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <div class="text-xs-center" color="blue">
+                    <v-menu transition="slide-y-transition">
+                        <v-btn slot="activator" icon>
+                            <v-avatar size="48"><img src="~@/assets/avatarDefault.jpg" alt="Login"></v-avatar>
+                        </v-btn>
+                        <v-list>
+                            <v-list-tile v-for="(item, i) in profileItems" :key="i" :to="item.to">
+                                <v-list-tile-title v-text="item.title"></v-list-tile-title>
+                            </v-list-tile>
+                        </v-list>
+                    </v-menu>
+                </div>
+            </v-toolbar>
+            <v-content>
+                <v-container fluid fill-height>
+                    <v-slide-y-transition mode="out-in">
+                        <router-view :key="$route.fullPath"></router-view>
+                    </v-slide-y-transition>
+                </v-container>
+            </v-content>
+            <v-footer :fixed="fixed" app v-bind:color="settings.isDark ? 'black' : 'green'">
+                <v-spacer></v-spacer>
+                <span class="px-3 white--text">&copy; 2018 Langston Chandler</span>
+            </v-footer>
+        </v-app>
+    </div>
 </template>
 
 <script>
     import VeeValidate from 'vee-validate';
     import Vue from 'vue';
+    import config from '../config.js';
 
     Vue.use(VeeValidate);
 
     var fs = require('fs');
-    var config = require('../config.js');
 
-  export default {
-    name: 'writestorm',
-    data: () => ({
-      drawer: false,
-      fixed: false,
-        settings: {
-          isDark: false
+    export default {
+        name: 'writestorm',
+        store: this.$store,
+        data: () => ({
+            drawer: false,
+            fixed: false,
+            items: {
+                recent: []
+            },
+            profileItems: [
+                {title: 'Profile', to: '/profile'},
+                {title: 'About', to: '/about'},
+                {title: 'Logout', to: '/login'}
+            ],
+            notifications: ['hi'],
+            right: false
+        }),
+        methods: {
+            getFileList: function () {
+                fs.readdir('./storms', (err, data) => {
+                    console.log(data);
+                    this.items.recent = [];
+                    data.forEach((item) => {
+                        if (!item.startsWith("_")) {
+                            this.items.recent.push({icon: 'cloud_queue', title: item, to: '/storms/' + item});
+                        }
+                    });
+                });
+            },
+            saveSettings() {
+                config.saveSettings(this.$store.state.settings);
+            }
         },
-      items: {
-          recent: []
-      },
-        profileItems: [
-            { title: 'Profile', to: '/profile' },
-            { title: 'About', to: '/about' },
-            { title: 'Logout', to: '/login' }
-        ],
-        notifications: [ 'hi' ],
-      right: false
-    }),
-      methods: {
-          getFileList: function () {
-              fs.readdir('./storms', (err, data) => {
-                  console.log(data);
-                  this.items.recent = [];
-                  data.forEach((item) => {
-                      if (!item.startsWith("_")) {
-                          this.items.recent.push( { icon: 'cloud_queue', title: item, to: '/storms/' + item });
-                      }
-                  });
-              });
-          },
-          flipTheme: function () {
-              console.log("Flipped theme");
-              this.settings.isDark = !this.settings.isDark;
-              this.saveSettings();
-          },
-          saveSettings: function () {
-              config.saveSettings(this.settings);
-          }
-      },
-      mounted () {
-          fs.readdir('./storms', function(err, data) {
-              if (err) {
-                  console.log('Making ./storms/ directory');
-                  fs.mkdir('storms');
-              } else {
-                  console.log('./storms/ already exists');
-              }
-          })
-          config.getSettings((err, settings) => {
-              this.settings = settings;
-          });
-          this.getFileList();
-      }
-  }
+        computed: {
+            settings() {
+                return this.$store.state.settings;
+            }
+        },
+        mounted() {
+            fs.readdir('./storms', function (err, data) {
+                if (err) {
+                    console.log('Making ./storms/ directory');
+                    fs.mkdir('storms');
+                } else {
+                    console.log('./storms/ already exists');
+                }
+            })
+            this.getFileList();
+        }
+    }
 </script>
 
 <style>
-  @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
-  /* Global CSS */
+    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
+    /* Global CSS */
+    html {
+        overflow-y: auto;
+    }
 </style>
