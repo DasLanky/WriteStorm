@@ -27,7 +27,7 @@
                 </v-list>
             </v-navigation-drawer>
 
-            <v-system-bar class="system-bar mx-0 px-0"
+            <v-system-bar fixed app class="system-bar mx-0 px-0"
                           :style="'background-color: ' + settings.isDark ? '#303030' : 'green'">
                 <v-layout row no-wrap style="justify-content: flex-start; flex-direction: row-reverse">
                     <v-btn flat class="no-drag window-btn close-btn" @click.native.stop="remote.getCurrentWindow().close()">
