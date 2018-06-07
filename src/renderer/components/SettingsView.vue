@@ -1,26 +1,17 @@
-<template>
-    <v-layout row wrap justify-center id="wrapper">
-        <v-flex xs10 class="mt-3">
-            <v-card>
-                <v-card-title class="headline">Settings</v-card-title>
-                    <v-spacer></v-spacer>
-                <v-layout row wrap class="mt-2 mx-4" justify-content="flex-start">
-                    <v-flex xs6>
-                        <v-switch label="Welcome Card" v-model="settings.isHelpVisible"
-                                  @click.native.stop="saveSettings()"></v-switch>
-                    </v-flex>
-                    <v-flex xs6>
-                        <v-switch label="Scroll" v-model="settings.shouldScroll"
-                                  @click.native.stop="saveSettings()"></v-switch>
-                    </v-flex>
-                    <v-flex xs6>
-                        <v-switch label="Dark Theme" v-model="settings.isDark"
-                                  @click.native.stop="saveSettings()"></v-switch>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-        </v-flex>
-    </v-layout>
+<template lang="pug">
+    v-layout#wrapper(row wrap justify-center)
+        v-flex.mt-3(xs10)
+            v-card
+                v-card-title.headline Settings
+                v-spacer
+                v-layout.mt-2.mx-4(row wrap justify-content='flex-start')
+                    v-flex(xs6)
+                        v-switch(label='Welcome Card' v-model='settings.isHelpVisible' @click.native.stop='saveSettings()')
+                    v-flex(xs6)
+                        v-switch(label='Scroll' v-model='settings.shouldScroll' @click.native.stop='saveSettings()')
+                    v-flex(xs6)
+                        v-switch(label='Dark Theme' v-model='settings.isDark' @click.native.stop='saveSettings()')
+
 </template>
 
 <script>

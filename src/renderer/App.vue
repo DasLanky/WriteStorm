@@ -1,97 +1,52 @@
-<template>
-    <div id="app" style="overflow-y: hidden;">
-        <v-app v-bind:dark="settings.isDark">
-            <v-navigation-drawer
-                    absolute
-                    :clipped="true"
-                    :temporary="true"
-                    :disable-resize-watcher="true"
-                    v-model="drawer"
-                    app
-            >
-                <v-list>
-                    <v-list-tile
-                            router
-                            :to="item.to"
-                            :key="i"
-                            v-for="(item, i) in items.recent"
-                            exact
-                    >
-                        <v-list-tile-action>
-                            <v-icon v-html="item.icon"></v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title v-text="item.title"></v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-navigation-drawer>
-
-            <v-system-bar fixed app class="system-bar mx-0 px-0"
-                          :style="'background-color: ' + settings.isDark ? '#303030' : 'green'">
-                <v-layout row no-wrap style="justify-content: flex-start; flex-direction: row-reverse">
-                    <v-btn flat class="no-drag window-btn close-btn" @click.native.stop="remote.getCurrentWindow().close()">
-                        <v-icon small class="no-drag">close</v-icon>
-                    </v-btn>
-                    <v-btn flat class="no-drag window-btn" @click.native.stop="remote.getCurrentWindow().maximize()">
-                        <v-icon small class="no-drag">check_box_outline_blank</v-icon>
-                    </v-btn>
-                    <v-btn flat class="no-drag window-btn" @click.native.stop="remote.getCurrentWindow().minimize()">
-                        <v-icon small class="no-drag">minimize</v-icon>
-                    </v-btn>
-                </v-layout>
-            </v-system-bar>
-
-            <v-toolbar fixed app height="60" class="mt-4" v-bind:color="settings.isDark ? 'black' : 'green'">
-                <v-layout row no-wrap justify-center>
-                    <v-btn icon @click.native.stop="drawer ? {} : getFileList(); drawer = !drawer;">
-                        <v-icon color="white" v-html="drawer ? 'chevron_right' : 'chevron_left'"></v-icon>
-                    </v-btn>
-                    <v-btn icon :to="'/settings'">
-                        <v-icon color="white">settings</v-icon>
-                    </v-btn>
-                    <v-btn icon @click.native.stop="fixed = !fixed">
-                        <div v-if="notifications.length > 0">
-                            <v-icon color="red">notifications</v-icon>
-                        </div>
-                        <div v-if="notifications.length == 0">
-                            <v-icon>notifications</v-icon>
-                        </div>
-                    </v-btn>
-                    <v-btn icon @click.native.stop="$store.commit('flipTheme'); saveSettings()">
-                        <v-icon color="white" v-html="settings.isDark ? 'brightness_7' : 'brightness_3'"></v-icon>
-                    </v-btn>
-                    <v-btn icon :to="'/'">
-                        <v-icon color="white">cloud</v-icon>
-                    </v-btn>
-                    <v-spacer></v-spacer>
-                    <div class="text-xs-center" color="blue">
-                        <v-menu transition="slide-y-transition">
-                            <v-btn slot="activator" icon>
-                                <v-avatar size="48"><img src="~@/assets/avatarDefault.jpg" alt="Login"></v-avatar>
-                            </v-btn>
-                            <v-list>
-                                <v-list-tile v-for="(item, i) in profileItems" :key="i" :to="item.to">
-                                    <v-list-tile-title v-text="item.title"></v-list-tile-title>
-                                </v-list-tile>
-                            </v-list>
-                        </v-menu>
-                    </div>
-                </v-layout>
-            </v-toolbar>
-            <v-content>
-                <v-container fluid fill-height>
-                    <v-slide-y-transition mode="out-in">
-                        <router-view :key="$route.fullPath"></router-view>
-                    </v-slide-y-transition>
-                </v-container>
-            </v-content>
-            <v-footer :fixed="fixed" app v-bind:color="settings.isDark ? 'black' : 'green'">
-                <v-spacer></v-spacer>
-                <span class="px-3 white--text">&copy; 2018 Langston Chandler</span>
-            </v-footer>
-        </v-app>
-    </div>
+<template lang="pug">
+    #app(style='overflow-y: hidden;')
+        v-app(v-bind:dark='settings.isDark')
+            v-navigation-drawer(absolute app :clipped='true' :temporary='true' :disable-resize-watcher='true' v-model='drawer')
+                v-list
+                    v-list-tile(router :to='item.to' :key='i' v-for='(item, i) in items.recent' exact)
+                        v-list-tile-action
+                            v-icon(v-html='item.icon')
+                        v-list-tile-content
+                            v-list-tile-title(v-text='item.title')
+            v-system-bar(system-bar app mx-0 px-0 :style="'background-color: ' + settings.isDark ? '#303030' : 'green'")
+                v-layout(row no-wrap style='justify-content: flex-start; flex-direction: row-reverse')
+                    v-btn.no-drag.window-btn.close-btn(flat @click.native.stop='remote.getCurrentWindow().close()')
+                        v-icon.no-drag(small) close
+                    v-btn.no-drag.window-btn(flat @click.native.stop='remote.getCurrentWindow().maximize()')
+                        v-icon.no-drag(small) check_box_outline_blank
+                    v-btn.no-drag.window-btn(flat @click.native.stop='remote.getCurrentWindow().minimize()')
+                        v-icon.no-drag(small) minimize
+            v-toolbar(fixed app mt-4 height='60' v-bind:color="settings.isDark ? 'black' : 'green'")
+                v-layout(row no-wrap justify-center)
+                    v-btn(icon @click.native.stop='drawer ? {} : getFileList(); drawer = !drawer;')
+                        v-icon(color='white' v-html="drawer ? 'chevron_right' : 'chevron_left'")
+                    v-btn(icon :to="'/settings'")
+                        v-icon(color='white') settings
+                    v-btn(icon @click.native.stop='fixed = !fixed')
+                        div(v-if='notifications.length > 0')
+                            v-icon(color='red') notifications
+                        div(v-if='notifications.length == 0')
+                            v-icon notifications
+                    v-btn(icon @click.native.stop="$store.commit('flipTheme'); saveSettings()")
+                        v-icon(color='white' v-html="settings.isDark ? 'brightness_7' : 'brightness_3'")
+                    v-btn(icon :to="'/'")
+                        v-icon(color='white') cloud
+                    v-spacer
+                    .text-xs-center(color='blue')
+                        v-menu(transition='slide-y-transition')
+                            v-btn(slot='activator' icon)
+                                v-avatar(size='48')
+                                    img(src='~@/assets/avatarDefault.jpg' alt='Login')
+                            v-list
+                                v-list-tile(v-for='(item, i) in profileItems' :key='i' :to='item.to')
+                                    v-list-tile-title(v-text='item.title')
+            v-content
+                v-container(fluid fill-height)
+                    v-slide-y-transition(mode='out-in')
+                        router-view(:key='$route.fullPath')
+            v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : 'green'")
+                v-spacer
+                span.px-3.white--text &copy; 2018 Langston Chandler
 </template>
 
 <script>
