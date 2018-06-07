@@ -1,55 +1,29 @@
-<template>
-    <v-layout row wrap justify-center id="wrapper">
-        <v-flex xs10 class="mt-3">
-            <v-card :class="settings.isHelpVisible ? '' : 'hidden'">
-                <v-card-text>
-                    <p>Welcome to WriteStorm!</p>
-                    <p>Start writing in the below text area on the left in Markdown and your compiled text will appear
-                        on the right.</p>
-                    <p>All your storms are automatically saved in the ./storms/ folder.</p>
-                    <p>Happy writing!</p>
-                    <div class="text-xs-right">
-                        <em>
-                            <small>&mdash; Langston</small>
-                        </em>
-                    </div>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                            primary
-                            flat
-                            @click.native.stop="settings.isHelpVisible = false; saveSettings()"
-                    >
-                        Hide
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-            <v-layout row wrap justify-center>
-                <v-flex xs6 @input="update">
-                    <v-card class="my-3 mx-2 elevation-5">
-                        <v-text-field
-                                v-model="stormText"
-                                :textarea="true"
-                                :autofocus="true"
-                                :auto-grow="!settings.shouldScroll"
-                                style="height: 100%"
-                                class="textarea"
-                        ></v-text-field>
-                        <v-card-actions>
-                            <v-switch label="Scroll" v-model="settings.shouldScroll"
-                                      @click.native.stop="saveSettings()"></v-switch>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
-                <v-flex xs6>
-                    <v-card class="mt-3 mx-2 elevation-5" :auto-grow="!settings.shouldScroll">
-                        <div class="markdown" v-html="compiledMarkdown"></div>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-    </v-layout>
+<template lang="pug">
+    v-layout#wrapper(row wrap justify-center)
+        v-flex(xs10 mt-3)
+            v-card(:class="settings.isHelpVisible ? '' : 'hidden'")
+                v-card-text
+                    p Welcome to WriteStorm!
+                    p
+                        | Start writing in the below text area on the left in Markdown and your compiled text will appear
+                        | on the right.
+                    p All your storms are automatically saved in the ./storms/ folder.
+                    p Happy writing!
+                    .text-xs-right
+                        em
+                            small &mdash; Langston
+                v-card-actions
+                    v-spacer
+                    v-btn(primary flat @click.native.stop='settings.isHelpVisible = false; saveSettings()') Hide
+            v-layout(row wrap justify-center mt-3)
+                v-flex(xs6 pr-2 @input='update')
+                    v-card(elevation-5)
+                        v-text-field.textarea(py-0 my-0 textarea autofocus v-model='stormText' :auto-grow='!settings.shouldScroll')
+                        v-card-actions
+                            v-switch(label='Scroll' v-model='settings.shouldScroll' @click.native.stop='saveSettings()')
+                v-flex(xs6 pl-2)
+                    v-card(mt-3 elevation-5 :auto-grow='!settings.shouldScroll')
+                        .markdown(v-html='compiledMarkdown')
 </template>
 
 <script>
@@ -122,6 +96,7 @@
         font-family: 'Monaco', courier, monospace;
         margin-bottom: 0px;
         padding: 0px;
+        height: 100%;
     }
 
     .markdown {
