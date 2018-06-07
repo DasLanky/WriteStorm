@@ -8,15 +8,15 @@
                             v-icon(v-html='item.icon')
                         v-list-tile-content
                             v-list-tile-title(v-text='item.title')
-            v-system-bar(system-bar app mx-0 px-0 :style="'background-color: ' + settings.isDark ? '#303030' : 'green'")
-                v-layout(row no-wrap style='justify-content: flex-start; flex-direction: row-reverse')
-                    v-btn.no-drag.window-btn.close-btn(flat @click.native.stop='remote.getCurrentWindow().close()')
+            v-system-bar.px-0.mx-0(system-bar fixed app :style="'background-color: ' + settings.isDark ? '#303030' : 'green'")
+                v-layout(row no-wrap mx-0 px-0 style='justify-content: flex-start; flex-direction: row-reverse')
+                    v-btn.no-drag.window-btn(flat color="red" @click.native.stop='remote.getCurrentWindow().close()')
                         v-icon.no-drag(small) close
                     v-btn.no-drag.window-btn(flat @click.native.stop='remote.getCurrentWindow().maximize()')
                         v-icon.no-drag(small) check_box_outline_blank
                     v-btn.no-drag.window-btn(flat @click.native.stop='remote.getCurrentWindow().minimize()')
                         v-icon.no-drag(small) minimize
-            v-toolbar(fixed app mt-4 height='60' v-bind:color="settings.isDark ? 'black' : 'green'")
+            v-toolbar(fixed app height='60' v-bind:color="settings.isDark ? 'black' : 'green'")
                 v-layout(row no-wrap justify-center)
                     v-btn(icon @click.native.stop='drawer ? {} : getFileList(); drawer = !drawer;')
                         v-icon(color='white' v-html="drawer ? 'chevron_right' : 'chevron_left'")
@@ -150,9 +150,5 @@
 
     .close-btn :hover{
         background-color: rgba(240, 71, 71, 0.7);
-    }
-
-    .icon .no-drag :hover{
-        background-color: rgba(0,0,0,0);
     }
 </style>
