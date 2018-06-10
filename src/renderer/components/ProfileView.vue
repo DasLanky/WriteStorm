@@ -1,51 +1,32 @@
-<template>
-    <v-layout row wrap justify-center id="wrapper">
-        <v-flex xs10 mt-3 text-xs-center>
-            <v-card>
-                <v-card-title class="headline">Profile</v-card-title>
-                <v-divider></v-divider>
-                <v-layout column wrap class="centered">
-                    <v-flex mt-4>
-                        <v-avatar size="256">
-                            <img src="~@/assets/avatarDefault.jpg" circle>
-                        </v-avatar>
-                    </v-flex>
-                    <v-flex mt-4 px-5>
-                        <v-text-field
-                                v-model="settings.firstName"
-                                name="firstName"
-                                id="firstName"
-                                v-validate.initial="'required|alpha'"
-                                label="First Name"
-                                class="name-input"
-                                :error-messages="errors.collect('firstName')"
-                        />
-                    </v-flex>
-                    <v-flex px-5>
-                        <v-text-field
-                                v-model="settings.lastName"
-                                name="lastName"
-                                id="lastName"
-                                v-validate.initial="'required|alpha'"
-                                label="Last Name"
-                                class="name-input"
-                                :error-messages="errors.collect('lastName')"
-                        />
-                    </v-flex>
-                </v-layout>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn primary
-                           flat
-                           outline
-                           @click.native.stop="saveSettings()"
-                    >
-                        Save
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-flex>
-    </v-layout>
+<template lang="pug">
+    v-layout#wrapper(row wrap justify-center)
+        v-flex(xs10 mt-3 text-xs-center)
+            v-card
+                v-card-title(headline) Profile
+                v-divider
+                v-layout(column wrap centered)
+                    v-flex(mt-4)
+                        v-avatar(size='256')
+                            img(circle src="~@/assets/avatarDefault.jpg")
+                    v-flex(mt-4 px-5)
+                        v-text-field#firstName(
+                            name-input
+                            name="firstName"
+                            v-model="settings.firstName"
+                            v-validate.initial="'required|alpha'"
+                            label="First Name"
+                            :error-messages="errors.collect('firstName')")
+                    v-flex(px-5)
+                        v-text-field#lastName(
+                            name-input
+                            name="lastName"
+                            v-model="settings.lastName"
+                            v-validate.initial="'required|alpha'"
+                            label="Last Name"
+                            :error-messages="errors.collect('lastName')")
+                v-card-actions
+                    v-spacer
+                    v-btn(primary flat outline @click.native.stop="saveSettings()") Save
 </template>
 
 <script>
