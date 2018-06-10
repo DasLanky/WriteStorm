@@ -35,12 +35,10 @@ const store = new Vuex.Store({
 
 config.getSettings(store.state.settings, (newSettings) => {
     store.state.settings = newSettings;
-})
-
-/* eslint-disable no-new */
-new Vue({
-    components: {App},
-    router,
-    store,
-    template: '<App/>'
-}).$mount('#app')
+    new Vue({
+        components: {App},
+        router,
+        store,
+        template: '<App/>'
+    }).$mount('#app')
+});

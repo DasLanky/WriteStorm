@@ -44,7 +44,7 @@
                 textElevation: '1',
                 stormText: '# Go for it!',
                 statusText: 'Keep writing!',
-                showDialog: this.$store.state.settings.isHelpVisible,
+                showDialog: false,
             }
         },
         computed: {
@@ -86,6 +86,8 @@
         },
         mounted() {
             this.loadStorm();
+            console.log(this.$store.state.settings.isHelpVisible);
+            this.showDialog = this.$store.state.settings.isHelpVisible;
         }
     }
 </script>
