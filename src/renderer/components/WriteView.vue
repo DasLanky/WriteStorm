@@ -1,55 +1,29 @@
-<template>
-    <v-layout row wrap justify-center id="wrapper">
-        <v-flex xs10 class="mt-3">
-            <v-card :class="settings.isHelpVisible ? '' : 'hidden'">
-                <v-card-text>
-                    <p>Welcome to WriteStorm!</p>
-                    <p>Start writing in the below text area on the left in Markdown and your compiled text will appear
-                        on the right.</p>
-                    <p>All your storms are automatically saved in the ./storms/ folder.</p>
-                    <p>Happy writing!</p>
-                    <div class="text-xs-right">
-                        <em>
-                            <small>&mdash; Langston</small>
-                        </em>
-                    </div>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer/>
-                    <v-btn
-                            primary
-                            flat
-                            @click.native.stop="settings.isHelpVisible = false; saveSettings()"
-                    >
-                        Hide
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-            <v-layout row wrap justify-center>
-                <v-flex xs6 @input="update">
-                    <v-card class="my-3 mx-2 elevation-5">
-                        <v-text-field
-                                v-model="stormText"
-                                :textarea="true"
-                                :autofocus="true"
-                                :auto-grow="!settings.shouldScroll"
-                                style="height: 100%"
-                                class="textarea"
-                        ></v-text-field>
-                        <v-card-actions>
-                            <v-switch label="Scroll" v-model="settings.shouldScroll"
-                                      @click.native.stop="saveSettings()"></v-switch>
-                        </v-card-actions>
-                    </v-card>
-                </v-flex>
-                <v-flex xs6>
-                    <v-card class="mt-3 mx-2 elevation-5" :auto-grow="!settings.shouldScroll">
-                        <div class="markdown" v-html="compiledMarkdown"></div>
-                    </v-card>
-                </v-flex>
-            </v-layout>
-        </v-flex>
-    </v-layout>
+<template lang="pug">
+    v-layout#wrapper(column wrap justify-center)
+        v-flex(xs12 my-0 mx-0 py-0 px-0)
+            v-layout(row wrap justify-center my-0)
+                v-flex(xs12 sm4 md3 lg2 px-1 @input='update')
+                    v-card(elevation-5 style="height: 100%;")
+                        v-text-field.textarea(py-0 my-0 multi-line autofocus v-model='stormText' :auto-grow='false')
+                v-flex(xs12 sm8 md9 lg10 px-1 py-0 mditem)
+                    v-card(elevation-5 style="height: 100%;")
+                        .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
+        v-dialog(v-model="showDialog")
+            v-card
+                v-card-text
+                    p Welcome to WriteStorm!
+                    p
+                        | Start writing in the below text area on the left in Markdown and your compiled text will appear
+                        | on the right.
+                    p All your storms are automatically saved in the ./storms/ folder.
+                    p Happy writing!
+                    .text-xs-right
+                        em
+                            small &mdash; Langston
+                v-card-actions
+                    v-spacer
+                    v-btn(primary flat @click.native.stop='showDialog = false; settings.isHelpVisible = false; saveSettings()') Don't Show Again
+                    v-btn(primary flat @click.native.stop='showDialog = false;') Close
 </template>
 
 <script>
@@ -60,15 +34,17 @@
     var fs = require('fs');
     var path = require('path');
 
+    const {dialog} = require('electron').remote;
+
     export default {
         name: 'write',
         store: this.$store,
         data: function () {
             return {
-                stormTitle: Date.now().toString() + '.md',
                 textElevation: '1',
                 stormText: '# Go for it!',
-                statusText: 'Keep writing!'
+                statusText: 'Keep writing!',
+                showDialog: this.$store.state.settings.isHelpVisible,
             }
         },
         computed: {
@@ -83,17 +59,18 @@
             loadStorm: function () {
                 if (this.$route.params.storm) {
                     console.log("Loading Storm: " + this.$route.params.storm);
-                    this.stormTitle = this.$route.params.storm;
-                    fs.readFile('./storms/' + this.$route.params.storm, (err, data) => {
+                    this.$store.state.stormTitle = this.$route.params.storm;
+                    fs.readFile("./storms/" + this.$route.params.storm, (err, data) => {
                         this.stormText = data.toString();
                     });
                 }
                 else {
                     console.log("New Storm");
+                    this.$store.state.stormTitle = Date.now().toString() + ".md";
                 }
             },
             saveStorm: function () {
-                fs.writeFile('./storms/' + this.stormTitle, this.stormText, function (err) {
+                fs.writeFile('./storms/' + this.$store.state.stormTitle, this.stormText, function (err) {
                     if (err) {
                         callback(err);
                     }
@@ -115,13 +92,18 @@
 
 <style scoped>
     .textarea {
-        border: none;
+        border: 1px;
         resize: none;
         outline: none;
         font-size: 10px;
         font-family: 'Monaco', courier, monospace;
         margin-bottom: 0px;
         padding: 0px;
+        height: 100%;
+
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
     }
 
     .markdown {

@@ -22,7 +22,8 @@ const store = new Vuex.Store({
             isHelpVisible: true,
             shouldScroll: true,
             notificationTimeout: 5000,
-        }
+        },
+        stormTitle: ""
     },
     mutations: {
         flipTheme: state => state.settings.isDark = !state.settings.isDark,
