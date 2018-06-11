@@ -102,17 +102,28 @@
                         var fpath = filePaths[0],
                             pos1 = fpath.lastIndexOf("/"),
                             pos2 = fpath.lastIndexOf("\\"),
-                            fname = fpath.substring(1 + ((pos1 > pos2) ? pos1 : pos2));
-                        fs.createReadStream(fpath)
-                            .pipe(fs.createWriteStream(path.resolve(__dirname, "../../storms/" + fname)))
-                            .on("close", (ex) => {
-                                this.$router.push({
-                                    path: fname,
-                                    params: {
-                                        storm: fname
-                                    }
+                            fname = fpath.substring(1 + ((pos1 > pos2) ? pos1 : pos2)),
+                            newpath = path.resolve(__dirname, "../../storms/" + fname);
+                        if (filePaths[0] != newpath) {
+                            fs.createReadStream(fpath)
+                                .pipe(fs.createWriteStream(newpath))
+                                .on("close", (ex) => {
+                                    this.$router.push({
+                                        path: fname,
+                                        params: {
+                                            storm: fname
+                                        }
+                                    });
                                 });
+                        }
+                        else {
+                            this.$router.push({
+                                path: fname,
+                                params: {
+                                    storm: fname
+                                }
                             });
+                        }
                     }
                 });
             },
