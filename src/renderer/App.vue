@@ -3,11 +3,15 @@
         v-app(v-bind:dark='settings.isDark')
             v-navigation-drawer(absolute app :clipped='true' :temporary='true' :disable-resize-watcher='true' v-model='drawer')
                 v-list
-                    v-list-tile(router :to='item.to' :key='i' v-for='(item, i) in recent' exact)
+                    v-list-tile(router :key='i' v-for='(item, i) in recent' exact)
                         v-list-tile-action
-                            v-icon(v-html='item.icon')
+                            v-btn(icon :to="item.to")
+                                v-icon folder
                         v-list-tile-content
                             v-list-tile-title(v-text='item.title')
+                        v-list-tile-action
+                            v-btn(icon @click="deleteStorm(item.title);")
+                                v-icon(v-html='item.icon')
             v-system-bar.px-0.mx-0(system-bar fixed app :style="'background-color: ' + settings.isDark ? '#303030' : 'green'")
                 v-layout(row no-wrap mx-0 px-0 style='justify-content: flex-start; flex-direction: row-reverse')
                     v-btn.no-drag.window-btn(flat color="red" @click.native.stop='remote.getCurrentWindow().close()')
@@ -90,7 +94,7 @@
                     this.recent = new Array();
                     data.forEach((item) => {
                         if (!item.startsWith("_")) {
-                            this.recent.push({icon: 'cloud_queue', title: item, to: '/storms/' + item});
+                            this.recent.push({icon: 'close', title: item, to: '/storms/' + item});
                         }
                     });
                 });
@@ -124,6 +128,14 @@
                                 }
                             });
                         }
+                    }
+                });
+            },
+            deleteStorm: function(title) {
+                fs.unlink(path.resolve(__dirname, "../../storms/" + title), (err) => {
+                    console.log(err);
+                    if (!err) {
+                        this.drawer = false;
                     }
                 });
             },
