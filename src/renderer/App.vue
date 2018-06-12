@@ -1,6 +1,6 @@
 <template lang="pug">
-    #app.mditem(style='overflow-y: hidden;')
-        v-app.mditem(v-bind:dark='settings.isDark')
+    #app.mditem_main(style='overflow-y: hidden;')
+        v-app.mditem_main(v-bind:dark='settings.isDark')
             v-navigation-drawer(absolute app :clipped='true' :temporary='true' :disable-resize-watcher='true' v-model='drawer')
                 v-list
                     v-list-tile(router :key='i' v-for='(item, i) in recent' exact)
@@ -53,10 +53,10 @@
                                             v-list-tile-title Load
                                         v-list-tile(to='/profile')
                                             v-list-tile-title About
-            v-content.mditem
-                v-container.mditem(fluid fill-height)
-                    v-slide-y-transition.mditem(mode='out-in')
-                        router-view.mditem(:key='$route.fullPath')
+            v-content.mditem_main
+                v-container.mditem_main(fluid fill-height)
+                    v-slide-y-transition.mditem_main(mode='out-in')
+                        router-view.mditem_main(:key='$route.fullPath')
             v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : 'green'")
                 v-spacer
                 span.px-3.white--text &copy; 2018 Langston Chandler
@@ -198,9 +198,9 @@
         margin: 0;
     }
 
-    .mditem {
+    .mditem_main {
         height: 100% !important;
-        overflow-y: auto;
+        overflow-y: hidden;
     }
 
     .close-btn :hover{
