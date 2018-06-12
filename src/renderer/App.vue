@@ -1,6 +1,6 @@
 <template lang="pug">
-    #app(style='overflow-y: hidden;')
-        v-app(v-bind:dark='settings.isDark')
+    #app.mditem(style='overflow-y: hidden;')
+        v-app.mditem(v-bind:dark='settings.isDark')
             v-navigation-drawer(absolute app :clipped='true' :temporary='true' :disable-resize-watcher='true' v-model='drawer')
                 v-list
                     v-list-tile(router :key='i' v-for='(item, i) in recent' exact)
@@ -53,10 +53,10 @@
                                             v-list-tile-title Load
                                         v-list-tile(to='/profile')
                                             v-list-tile-title About
-            v-content
-                v-container(fluid fill-height)
-                    v-slide-y-transition(mode='out-in')
-                        router-view(:key='$route.fullPath')
+            v-content.mditem
+                v-container.mditem(fluid fill-height)
+                    v-slide-y-transition.mditem(mode='out-in')
+                        router-view.mditem(:key='$route.fullPath')
             v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : 'green'")
                 v-spacer
                 span.px-3.white--text &copy; 2018 Langston Chandler
@@ -165,8 +165,9 @@
 <style>
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
     /* Global CSS */
-    html {
-        overflow-y: auto;
+    html,body {
+        height: 100%;
+        overflow-y: hidden;
     }
 
     .system-bar {
@@ -195,6 +196,11 @@
         width: 25px;
         padding: 0;
         margin: 0;
+    }
+
+    .mditem {
+        height: 100% !important;
+        overflow-y: auto;
     }
 
     .close-btn :hover{

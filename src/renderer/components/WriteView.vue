@@ -1,12 +1,12 @@
 <template lang="pug">
-    v-layout#wrapper(column wrap justify-center)
-        v-flex(xs12 my-0 mx-0 py-0 px-0)
-            v-layout(row wrap justify-center my-0)
+    v-layout#wrapper.mditem(column wrap justify-center)
+        v-flex.mditem(xs12 my-0 mx-0 py-0 px-0)
+            v-layout.mditem(row wrap justify-center my-0)
                 v-flex(xs12 sm4 md3 lg2 px-1 @input='update')
                     v-card(elevation-5 style="height: 100%;")
                         v-text-field.textarea(py-0 my-0 multi-line autofocus v-model='stormText' :auto-grow='false')
-                v-flex(xs12 sm8 md9 lg10 px-1 py-0 mditem)
-                    v-card(elevation-5 style="height: 100%;")
+                v-flex.mditem(xs12 sm8 md9 lg10 px-1 py-0)
+                    v-card.mditem(elevation-5)
                         .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
         v-dialog(v-model="showDialog")
             v-card
@@ -106,6 +106,11 @@
         -webkit-box-shadow: none;
         -moz-box-shadow: none;
         box-shadow: none;
+    }
+
+    .mditem {
+        height: 100% !important;
+        overflow-y: auto;
     }
 
     .markdown {
