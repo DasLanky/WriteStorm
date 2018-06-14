@@ -13,7 +13,7 @@ function getSettings(defaults, callback) {
 }
 
 function saveSettings(settings) {
-    fs.writeFile('./config.json', JSON.stringify(settings, null, "\t"), (err) => {
+        fs.writeFile('./config.json', JSON.stringify(settings, null, "\t"), (err) => {
     });
 }
 

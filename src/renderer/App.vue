@@ -64,6 +64,10 @@
 
     const {dialog} = require('electron').remote;
 
+    import VueCodemirror, { CodeMirror } from 'vue-codemirror';
+
+    Vue.use(VueCodemirror, {});
+
     Vue.use(VeeValidate);
 
     var fs = require('fs');

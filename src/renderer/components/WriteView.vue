@@ -2,12 +2,13 @@
     v-layout#wrapper.mditem(column wrap justify-center)
         v-flex.mditem(xs12 my-0 mx-0 py-0 px-0)
             v-layout.mditem(row wrap justify-center my-0)
-                v-flex(xs12 sm4 md3 lg2 px-1 @input='update')
+                v-flex(xs12 sm5 md4 lg2 px-1 @input='update')
                     v-card(elevation-5 style="height: 100%;")
-                        v-text-field.textarea(py-0 my-0 multi-line autofocus v-model='stormText' :auto-grow='false')
-                v-flex.mditem(xs12 sm8 md9 lg10 px-1 py-0)
+                        codemirror(py-0 my-0 v-model="stormText" :options="cmOptions" autofocus style="height: 100%;")
+                v-flex.mditem(xs12 sm7 md8 lg10 px-1 py-0)
                     v-card.mditem(elevation-5)
-                        .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
+                        v-container
+                            .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
         v-dialog(v-model="showDialog")
             v-card
                 v-card-text
@@ -29,6 +30,11 @@
 <script>
     import _ from 'lodash';
     import marked from 'marked';
+
+    import 'codemirror/lib/codemirror.css'
+    import 'codemirror/mode/markdown/markdown.js'
+    import 'codemirror/theme/elegant.css';
+
     import config from '../../config.js';
 
     var fs = require('fs');
@@ -45,11 +51,21 @@
                 stormText: '# Go for it!',
                 statusText: 'Keep writing!',
                 showDialog: false,
+                cmOptions: {
+                    tabSize: this.$store.state.settings.tabSize,
+                    mode: 'markdown',
+                    theme: 'elegant',
+                    lineNumbers: this.$store.state.settings.showLineNumber,
+                    lineWrapping: this.$store.state.settings.wrapLines,
+                }
             }
         },
         computed: {
             compiledMarkdown() {
-                return marked(this.stormText, {silent: true});
+                return marked(this.stormText, {
+                    smartypants: true,
+                    gfm: true
+                });
             },
             settings() {
                 return this.$store.state.settings;
@@ -80,7 +96,7 @@
                 config.saveSettings(this.$store.state.settings);
             },
             update: _.debounce(function (e) {
-                this.stormText = e.target.value;
+                console.log("Saving Storm");
                 this.saveStorm();
             }, 300)
         },
@@ -93,6 +109,10 @@
 </script>
 
 <style scoped>
+    /deep/ .CodeMirror {
+        height: 100%;
+    }
+
     .textarea {
         border: 1px;
         resize: none;

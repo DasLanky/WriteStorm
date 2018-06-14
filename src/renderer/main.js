@@ -22,6 +22,9 @@ const store = new Vuex.Store({
             isHelpVisible: true,
             shouldScroll: true,
             notificationTimeout: 5000,
+            tabSize: 4,
+            showLineNumber: true,
+            wrapLines: false,
         },
         stormTitle: ""
     },
