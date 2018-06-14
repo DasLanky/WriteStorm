@@ -18,18 +18,27 @@ function createWindow() {
      * Initial window options
      */
     mainWindow = new BrowserWindow({
-        frame: false,
-        transparent: true,
+        frame: true,
         height: 720,
-        useContentSize: true,
-        width: 1280
+        width: 1280,
+        resizable: true,
+        title: "WriteStorm",
+        autoHideMenuBar: true,
+        maximizable: true,
+        vibrancy: "ultra-dark",
+        backgroundColor: "#303030",
+        show: true
     })
+
+    mainWindow.setResizable(true)
 
     mainWindow.loadURL(winURL)
 
     mainWindow.on('closed', () => {
         mainWindow = null
     })
+
+    mainWindow.focus()
 }
 
 app.on('ready', createWindow)
