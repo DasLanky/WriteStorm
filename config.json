@@ -1,7 +1,12 @@
 {
+	"shouldScroll": true,
+	"isDark": false,
 	"notificationTimeout": 5000,
+	"isHelpVisible": false,
 	"firstName": "Langston",
 	"lastName": "Chandler",
-	"isHelpVisible": true,
-	"shouldScroll": true
+	"tabSize": "8",
+	"showLineNumber": true,
+	"wrapLines": true,
+	"color": "blue darken-3"
 }

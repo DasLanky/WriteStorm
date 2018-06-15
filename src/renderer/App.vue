@@ -12,7 +12,7 @@
                         v-list-tile-action
                             v-btn(icon @click="deleteStorm(item.title);")
                                 v-icon(v-html='item.icon')
-            v-toolbar(fixed app height='60' v-bind:color="settings.isDark ? 'black' : 'green'")
+            v-toolbar(fixed app height='60' v-bind:color="settings.isDark ? 'black' : settings.color")
                 v-layout(row no-wrap justify-center)
                     v-flex(xs4 mt-2)
                         v-btn(icon @click.native.stop='drawer ? {} : getFileList(); drawer = !drawer;')
@@ -20,16 +20,18 @@
                         v-btn(icon :to="'/settings'")
                             v-icon(color='white') settings
                         v-btn(icon @click.native.stop='fixed = !fixed')
-                            div(v-if='notifications.length > 0')
-                                v-icon(color='red') notifications
-                            div(v-if='notifications.length == 0')
-                                v-icon notifications
+                            v-menu(transition='slide-y-transition')
+                                v-btn(icon slot='activator')
+                                    v-icon(color="white") palette
+                                v-list
+                                    v-list-tile(router :key='i' v-for='(item, i) in colors' exact @click="settings.color = item.value;")
+                                        v-list-tile-title {{item.name}}
                         v-btn(icon @click.native.stop="$store.commit('flipTheme'); saveSettings()")
                             v-icon(color='white' v-html="settings.isDark ? 'brightness_7' : 'brightness_3'")
                         v-btn(icon :to="'/'")
                             v-icon(color='white') cloud
-                    v-flex(xs4)
-                        v-text-field(v-model="$store.state.stormTitle" flat)
+                    v-flex(xs4 color="white")
+                        v-text-field(v-model="$store.state.stormTitle" color="white" dark)
                     v-flex(xs4 mt-2)
                         v-layout(row-reverse)
                             v-spacer
@@ -49,7 +51,7 @@
                 v-container.mditem_main(fluid fill-height)
                     v-slide-y-transition.mditem_main(mode='out-in')
                         router-view.mditem_main(:key='$route.fullPath')
-            v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : 'green'")
+            v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : settings.color")
                 v-spacer
                 span.px-3.white--text &copy; 2018 Langston Chandler
 </template>
@@ -79,7 +81,12 @@
             remote: remote,
             drawer: false,
             fixed: false,
-            notifications: ['hi'],
+            colors: [
+                { name: "Green", value: "green" },
+                { name: "Blue", value: "blue darken-3" },
+                { name: "Red", value: "red darken-1" },
+                { name: "Purple", value: "purple" }
+            ],
             right: false,
             recent: new Array()
         }),

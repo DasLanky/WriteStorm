@@ -19,6 +19,7 @@ const store = new Vuex.Store({
     state: {
         settings: {
             isDark: false,
+            color: "green",
             isHelpVisible: true,
             shouldScroll: true,
             notificationTimeout: 5000,

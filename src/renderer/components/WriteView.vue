@@ -2,10 +2,10 @@
     v-layout#wrapper.mditem(column wrap justify-center)
         v-flex.mditem(xs12 my-0 mx-0 py-0 px-0)
             v-layout.mditem(row wrap justify-center my-0)
-                v-flex(xs12 sm5 md4 lg2 px-1 @input='update')
-                    v-card(elevation-5 style="height: 100%;")
+                v-flex(xs12 sm6 md5 lg4 px-1 @input='update')
+                    v-card(style="height: 100%;")
                         codemirror(py-0 my-0 v-model="stormText" :options="cmOptions" autofocus style="height: 100%;")
-                v-flex.mditem(xs12 sm7 md8 lg10 px-1 py-0)
+                v-flex.mditem(xs12 sm6 md7 lg8 px-1 py-0)
                     v-card.mditem(elevation-5)
                         v-container
                             .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
