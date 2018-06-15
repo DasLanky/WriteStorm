@@ -8,7 +8,7 @@
                 v-flex.mditem(xs12 sm6 md7 lg8 px-1 py-0)
                     v-card.mditem(elevation-5)
                         v-container
-                            .markdown(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
+                            .markdown.body-1(v-html='compiledMarkdown' style="overflow-y: auto; height: 100%;")
         v-dialog(v-model="showDialog")
             v-card
                 v-card-text

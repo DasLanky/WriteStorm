@@ -110,7 +110,7 @@
                             pos1 = fpath.lastIndexOf("/"),
                             pos2 = fpath.lastIndexOf("\\"),
                             fname = fpath.substring(1 + ((pos1 > pos2) ? pos1 : pos2)),
-                            newpath = path.resolve(__dirname, "../../storms/" + fname);
+                            newpath = './storms/' + fname;
                         if (filePaths[0] != newpath) {
                             fs.createReadStream(fpath)
                                 .pipe(fs.createWriteStream(newpath))
@@ -135,7 +135,7 @@
                 });
             },
             deleteStorm: function(title) {
-                fs.unlink(path.resolve(__dirname, "../../storms/" + title), (err) => {
+                fs.unlink('./storms/' + title, (err) => {
                     console.log(err);
                     if (!err) {
                         this.drawer = false;
@@ -166,7 +166,8 @@
 </script>
 
 <style>
-    @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons');
+    @import "~material-design-icons-iconfont/dist/material-design-icons.css";
+    @import "~roboto-fontface/css/roboto/roboto-fontface.css";
     /* Global CSS */
     html,body {
         height: 100%;
