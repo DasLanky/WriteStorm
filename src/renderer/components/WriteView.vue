@@ -4,7 +4,8 @@
             v-layout.mditem(row wrap justify-center my-0)
                 v-flex(xs12 sm6 md5 lg4 px-1 @input='update')
                     v-card(style="height: 100%;")
-                        codemirror(py-0 my-0 v-model="stormText" :options="cmOptions" autofocus style="height: 100%;")
+                        .codemirror(style="height: 100%")
+                            codemirror(py-0 my-0 v-model="stormText" :options="cmOptions" autofocus style="height: 100%;")
                 v-flex.mditem(xs12 sm6 md7 lg8 px-1 py-0)
                     v-card.mditem(elevation-5)
                         v-container
@@ -31,9 +32,7 @@
     import _ from 'lodash';
     import marked from 'marked';
 
-    import 'codemirror/lib/codemirror.css'
-    import 'codemirror/mode/markdown/markdown.js'
-    import 'codemirror/theme/elegant.css';
+    import 'codemirror/lib/codemirror.css';
 
     import config from '../../config.js';
 
@@ -53,7 +52,8 @@
                 showDialog: false,
                 cmOptions: {
                     tabSize: this.$store.state.settings.tabSize,
-                    mode: 'markdown',
+                    styleActiveLine: true,
+                    mode: 'text/x-markdown',
                     theme: 'elegant',
                     lineNumbers: this.$store.state.settings.showLineNumber,
                     lineWrapping: this.$store.state.settings.wrapLines,

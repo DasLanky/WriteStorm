@@ -24,7 +24,7 @@
                                 v-btn(icon slot='activator')
                                     v-icon(color="white") palette
                                 v-list
-                                    v-list-tile(router :key='i' v-for='(item, i) in colors' exact @click="settings.color = item.value;")
+                                    v-list-tile(router :key='i' v-for='(item, i) in colors' exact @click="settings.color = item.value; saveSettings()")
                                         v-list-tile-title {{item.name}}
                         v-btn(icon @click.native.stop="$store.commit('flipTheme'); saveSettings()")
                             v-icon(color='white' v-html="settings.isDark ? 'brightness_7' : 'brightness_3'")
@@ -62,13 +62,19 @@
     import path from 'path';
     import config from '../config.js';
 
+    import 'codemirror/mode/markdown/markdown.js';
+    import 'codemirror/theme/elegant.css';
+
     const {remote} = require('electron');
 
     const {dialog} = require('electron').remote;
 
     import VueCodemirror, { CodeMirror } from 'vue-codemirror';
 
-    Vue.use(VueCodemirror, {});
+    Vue.use(VueCodemirror, {
+        mode: 'text/x-markdown',
+        theme: 'elegant'
+    });
 
     Vue.use(VeeValidate);
 
