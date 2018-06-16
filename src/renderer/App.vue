@@ -12,9 +12,9 @@
                         v-list-tile-action
                             v-btn(icon @click="deleteStorm(item.title);")
                                 v-icon(v-html='item.icon')
-            v-toolbar(fixed app height='60' v-bind:color="settings.isDark ? 'black' : settings.color")
+            v-toolbar(fixed app v-bind:color="settings.isDark ? 'black' : settings.color")
                 v-layout(row no-wrap justify-center)
-                    v-flex(xs4 mt-2)
+                    v-flex(xs12 sm4 mt-2)
                         v-btn(icon @click.native.stop='drawer ? {} : getFileList(); drawer = !drawer;')
                             v-icon(color='white' v-html="drawer ? 'chevron_right' : 'chevron_left'")
                         v-btn(icon :to="'/settings'")
@@ -30,7 +30,7 @@
                             v-icon(color='white' v-html="settings.isDark ? 'brightness_7' : 'brightness_3'")
                         v-btn(icon :to="'/'")
                             v-icon(color='white') cloud
-                    v-flex(xs4 color="white")
+                    v-flex(xs4 sm4 color="white")
                         v-text-field(v-model="$store.state.stormTitle" color="white" dark)
                     v-flex(xs4 mt-2)
                         v-layout(row-reverse)
@@ -52,6 +52,7 @@
                     v-slide-y-transition.mditem_main(mode='out-in')
                         router-view.mditem_main(:key='$route.fullPath')
             v-footer(:fixed='fixed' app v-bind:color="settings.isDark ? 'black' : settings.color")
+                v-btn(flat color="white" @click.native.stop="open('https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet')") Markdown
                 v-spacer
                 span.px-3.white--text &copy; 2018 Langston Chandler
 </template>
@@ -59,26 +60,28 @@
 <script>
     import VeeValidate from 'vee-validate';
     import Vue from 'vue';
-    import path from 'path';
     import config from '../config.js';
-
-    import 'codemirror/mode/markdown/markdown.js';
-    import 'codemirror/theme/elegant.css';
 
     const {remote} = require('electron');
 
     const {dialog} = require('electron').remote;
 
-    import VueCodemirror, { CodeMirror } from 'vue-codemirror';
+    const fs = require('fs');
 
-    Vue.use(VueCodemirror, {
-        mode: 'text/x-markdown',
-        theme: 'elegant'
-    });
+    import VueCodemirror from 'vue-codemirror';
+    import CodeMirror from 'codemirror';
+
+    import 'codemirror/lib/codemirror.css';
+    import 'codemirror/mode/markdown/markdown.js';
+    import 'codemirror/theme/elegant.css';
+
+    VueCodemirror.CodeMirror = CodeMirror;
+
+    console.dir(CodeMirror.modes);
+
+    Vue.use(VueCodemirror);
 
     Vue.use(VeeValidate);
-
-    var fs = require('fs');
 
     export default {
         name: 'writestorm',
@@ -97,6 +100,9 @@
             recent: new Array()
         }),
         methods: {
+            open: function (url) {
+                remote.openExternal(url);
+            },
             getFileList: function () {
                 fs.readdir('./storms', (err, data) => {
                     console.log(data);
@@ -174,6 +180,8 @@
 <style>
     @import "~material-design-icons-iconfont/dist/material-design-icons.css";
     @import "~roboto-fontface/css/roboto/roboto-fontface.css";
+    @import "~codemirror/lib/codemirror.css";
+    @import "~codemirror/theme/elegant.css";
     /* Global CSS */
     html,body {
         height: 100%;

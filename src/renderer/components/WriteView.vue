@@ -5,7 +5,7 @@
                 v-flex(xs12 sm6 md5 lg4 px-1 @input='update')
                     v-card(style="height: 100%;")
                         .codemirror(style="height: 100%")
-                            codemirror(py-0 my-0 v-model="stormText" :options="cmOptions" autofocus style="height: 100%;")
+                            codemirror(py-0 my-0 v-model="stormText" :options="cmOption" autofocus style="height: 100%;")
                 v-flex.mditem(xs12 sm6 md7 lg8 px-1 py-0)
                     v-card.mditem(elevation-5)
                         v-container
@@ -31,10 +31,10 @@
 <script>
     import _ from 'lodash';
     import marked from 'marked';
-
-    import 'codemirror/lib/codemirror.css';
-
     import config from '../../config.js';
+
+    import 'codemirror/mode/markdown/markdown.js';
+    import 'codemirror/theme/elegant.css';
 
     var fs = require('fs');
     var path = require('path');
@@ -44,19 +44,19 @@
     export default {
         name: 'write',
         store: this.$store,
-        data: function () {
+        data() {
             return {
                 textElevation: '1',
                 stormText: '# Go for it!',
                 statusText: 'Keep writing!',
                 showDialog: false,
-                cmOptions: {
+                cmOption: {
                     tabSize: this.$store.state.settings.tabSize,
-                    styleActiveLine: true,
                     mode: 'text/x-markdown',
                     theme: 'elegant',
                     lineNumbers: this.$store.state.settings.showLineNumber,
                     lineWrapping: this.$store.state.settings.wrapLines,
+                    spellcheck: true
                 }
             }
         },
@@ -102,7 +102,6 @@
         },
         mounted() {
             this.loadStorm();
-            console.log(this.$store.state.settings.isHelpVisible);
             this.showDialog = this.$store.state.settings.isHelpVisible;
         }
     }
