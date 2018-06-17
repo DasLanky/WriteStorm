@@ -66,6 +66,8 @@
 
     const {dialog} = require('electron').remote;
 
+    const {shell} = require('electron');
+
     const fs = require('fs');
 
     import VueCodemirror from 'vue-codemirror';
@@ -101,7 +103,7 @@
         }),
         methods: {
             open: function (url) {
-                remote.openExternal(url);
+                shell.openExternal(url);
             },
             getFileList: function () {
                 fs.readdir('./storms', (err, data) => {
